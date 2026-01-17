@@ -1,0 +1,75 @@
+/* Reset & base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 20px;
+  height: 100vh;
+  width: 100vw;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #ffd2d228;
+}
+
+#root {
+  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+/* Card */
+.card {
+  height: 300px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+
+  background-color: rgba(128, 128, 128, 0.255);
+  border-radius: 10px;
+  border: 2px solid rgba(51, 36, 36, 0.415);
+  padding: 20px;
+  color: black;
+}
+
+/* Image */
+.card img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Heading */
+.card h1 {
+  margin: 0;
+}
+
+/* Paragraph */
+.card p {
+  max-width: 60%;
+  margin: 0;
+}
+
+/* Button */
+.card button {
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  color: black;
+  background-color: rgba(220, 20, 60, 0.23);
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px rgba(175, 116, 116, 0.2);
+}
+
+.card button:hover {
+  background-color: rgba(225, 19, 19, 0.434);
+  box-shadow: 5px 5px 5px rgba(175, 116, 116, 0.638);
+}

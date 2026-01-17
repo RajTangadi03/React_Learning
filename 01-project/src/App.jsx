@@ -1,35 +1,119 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+/* -------------------- Helpers -------------------- */
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function buildTree(family, rootId) {
+  const map = new Map();
+  family.forEach(p => map.set(p.id, { ...p, children: [] }));
+
+  family.forEach(p => {
+    if (p.parentId !== null && map.has(p.parentId)) {
+      map.get(p.parentId).children.push(map.get(p.id));
+    }
+  });
+
+  return map.get(rootId);
 }
 
-export default App
+/* -------------------- Tree Node UI -------------------- */
+
+function TreeNode({ node }) {
+  return (
+    <div style={{ marginLeft: 30 }}>
+      <div
+        style={{
+          border: "1px solid #aaa",
+          padding: "6px 10px",
+          display: "inline-block",
+          borderRadius: "6px",
+          marginBottom: "6px",
+          background: "rgba(98, -91, 255, 0.87)"
+        }}
+      >
+        {node.name} (ID: {node.id})
+      </div>
+
+      <div>
+        {node.children.map(child => (
+          <TreeNode key={child.id} node={child} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* -------------------- App -------------------- */
+
+export default function App() {
+  const [family, setFamily] = useState([]);
+
+  const [name, setName] = useState("");
+  const [parentId, setParentId] = useState("");
+
+  const root = family.find(p => p.parentId === null);
+  const treeRoot = root ? buildTree(family, root.id) : null;
+
+  function handleAdd() {
+    if (!name.trim()) return alert("Enter child name");
+
+    // First node → root
+    if (family.length === 0) {
+      setFamily([
+        {
+          id: 1,
+          name,
+          parentId: null
+        }
+      ]);
+    } else {
+      const pid = Number(parentId);
+      if (!family.find(p => p.id === pid)) {
+        return alert("Parent ID does not exist");
+      }
+
+      setFamily(prev => [
+        ...prev,
+        {
+          id: prev.length + 1,
+          name,
+          parentId: pid
+        }
+      ]);
+    }
+
+    setName("");
+    setParentId("");
+  }
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h1>🌳 Family Tree Builder</h1>
+
+      <div style={{ marginBottom: 15 }}>
+        <input
+          placeholder="Child name"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
+
+        {family.length > 0 && (
+          <input
+            placeholder="Parent ID"
+            value={parentId}
+            onChange={e => setParentId(e.target.value)}
+            style={{ marginLeft: 10 }}
+          />
+        )}
+
+        <button onClick={handleAdd} style={{ marginLeft: 10 }}>
+          Add Node
+        </button>
+      </div>
+
+      <hr />
+
+      {treeRoot ? <TreeNode node={treeRoot} /> : <p>Tree is empty</p>}
+    </div>
+  );
+}

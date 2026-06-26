@@ -10,8 +10,8 @@ const RightCards = (props) => {
             <div>
                 <p className='mb-2.5 text-white text-lg leading-relaxed'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut iste suscipit nemo incidunt ex doloribus sequi voluptatibus dolorum vel ipsa!</p>
                 <div className='flex justify-between'>
-                    <button className='text-white px-15 py-2 bg-blue-700 rounded-full'>{props.status}</button>
-                    <i className="ri-arrow-right-line text-white px-5 py-4 bg-blue-700 rounded-full"></i>
+                    <button style={{backgroundColor:props.color}} className='text-white px-15 py-2 rounded-full'>{props.status}</button>
+                    <i style={{backgroundColor:props.color}} className="ri-arrow-right-line text-white px-5 py-4 rounded-full"></i>
                 </div>
             </div>
         </div>

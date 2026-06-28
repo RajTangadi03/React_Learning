@@ -19,6 +19,18 @@ const App = () => {
   // use localStorage.removeItem to remove the 'age' item from localStorage
   localStorage.removeItem('age');
 
+  // to store the object in localStorage, we need to convert it to a string using JSON.stringify
+  const user = {
+    name: 'Anna',
+    age: 94,
+    city: 'New York'
+  };
+  localStorage.setItem('user', JSON.stringify(user));
+
+  // to retrieve the object from localStorage, we need to parse it back to an object using JSON.parse
+  const userFromStorage = JSON.parse(localStorage.getItem('user'));
+  console.log('userFromStorage:', userFromStorage);
+
 
   return (
     <div>LOCAL-STORAGE</div>
